@@ -541,7 +541,12 @@ func mkTime(year, m, day, hour, min, sec, nsec int64, loc *time.Location) (t tim
 }
 
 func _intArg(call FunctionCall, argNum int) (int64, bool) {
-	n := call.Argument(argNum).ToNumber()
+	arg := call.Argument(argNum)
+	if arg == nil {
+		return 0, false
+	}
+
+	n := arg.ToNumber()
 	if IsNaN(n) {
 		return 0, false
 	}
